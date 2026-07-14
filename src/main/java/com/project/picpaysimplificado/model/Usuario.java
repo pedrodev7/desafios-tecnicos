@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity(name = "usuario")
 @Table(name = "usuario")
 @Getter
@@ -28,6 +30,8 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
+
+    private BigDecimal valor;
 
     public Usuario(UsuarioRequest usuarioRequest) {
         this.nome = usuarioRequest.nome();
