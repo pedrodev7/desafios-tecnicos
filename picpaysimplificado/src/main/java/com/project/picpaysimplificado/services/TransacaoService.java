@@ -2,6 +2,8 @@ package com.project.picpaysimplificado.services;
 
 import com.project.picpaysimplificado.dto.TransacaoRequest;
 import com.project.picpaysimplificado.dto.TransacaoResponse;
+import com.project.picpaysimplificado.exception.InsufficientBalanceException;
+import com.project.picpaysimplificado.exception.UnauthorizedTransactionException;
 import com.project.picpaysimplificado.model.*;
 import com.project.picpaysimplificado.repository.TransacaoRepository;
 import com.project.picpaysimplificado.services.notification.NotificationService;
@@ -48,11 +50,11 @@ public class TransacaoService {
 
     private void validarTransacao(Usuario pagador, Usuario beneficiario, TransacaoRequest transacaoRequest) {
         if(pagador.getTipoUsuario().equals(TipoUsuario.LOJISTA)) {
-            throw new RuntimeException("Lojistas não podem realizar transações.");
+            throw new UnauthorizedTransactionException("Lojistas não podem realizar transações.");
         }
 
         if(pagador.getValor().compareTo(transacaoRequest.valor()) < 0) {
-            throw new RuntimeException("Saldo insuficiente para realizar a transação.");
+            throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação.");
         }
     }
 
