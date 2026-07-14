@@ -36,7 +36,9 @@ public class TransacaoService {
         Usuario beneficiario = usuarioService.buscarUsuario(transacaoRequest.beneficiarioId());
 
         this.validarTransacao(pagador, beneficiario, transacaoRequest);
-        this.transacaoAutorizada();
+        if(!transacaoAutorizada()){
+            throw new UnauthorizedTransactionException("Transação não autorizada");
+        }
 
 
         pagador.setValor(pagador.getValor().subtract(transacaoRequest.valor()));
